@@ -3,6 +3,10 @@
    <application
         android:label="qr_reader"
         android:icon="@mipmap/ic_launcher">
+        
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAQTUJ2D8uUe6A-OlezkTYm9wBjWkCi8mE"/>
+               
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -26,7 +30,7 @@
             <meta-data
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
-              />
+              />            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
