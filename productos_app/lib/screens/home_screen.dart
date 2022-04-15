@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final productsService = Provider.of<ProductService>(context);
+    final authService = Provider.of<AuthService>(context, listen: false);
 
     //Esto funciona porque cuando cambia la variable isLoading el NotifierListener 
     //implementado en el loadProducts le dice a este widget que se redibuje, es decir,
@@ -24,7 +25,18 @@ class HomeScreen extends StatelessWidget {
     //es que va a crear los widgets cuando este cerca de entrar a la pantalla, no los va a mantener a todos
     //activos, bastante util cuando se tienen muchos
     return Scaffold(
-      appBar: AppBar(title: const Text('Productos'),),
+      appBar: AppBar(
+        title: const Text('Productos'),
+        leading: IconButton(
+          icon: Icon( Icons.login_outlined ),
+          onPressed: () {
+
+            authService.logout();
+            Navigator.pushReplacementNamed(context, LoginScreen.route);
+            
+          }, 
+        ),
+      ),
       body: ListView.builder(
         itemCount: productsService.products.length,
         itemBuilder: ( BuildContext context, int index ) => GestureDetector(

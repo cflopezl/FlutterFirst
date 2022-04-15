@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:productos_app/providers/login_form_provider.dart';
 import 'package:productos_app/screens/screens.dart';
-import 'package:provider/provider.dart';
 import 'package:productos_app/services/services.dart';
+
 import 'package:productos_app/ui/input_decoration.dart';
 import 'package:productos_app/widgets/widgets.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const route = "login";
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  static const route = "register";
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                      children: [
                        SizedBox(height: 10,),
 
-                       Text('Login',style: Theme.of(context).textTheme.headline4,),
+                       Text('Crear Cuenta',style: Theme.of(context).textTheme.headline4,),
 
                        SizedBox(height: 30,),
                       
@@ -44,13 +45,13 @@ class LoginScreen extends StatelessWidget {
                  SizedBox(height: 50,),
 
                  TextButton(
-                   onPressed: () => Navigator.pushReplacementNamed(context, RegisterScreen.route), 
+                   onPressed: () => Navigator.pushReplacementNamed(context, LoginScreen.route), 
                    style: ButtonStyle(
                      overlayColor: MaterialStateProperty.all( Colors.indigo.withOpacity(0.1)),
                      shape: MaterialStateProperty.all( StadiumBorder() ),
                      backgroundColor: MaterialStateProperty.all( Colors.white70 ),
                    ),
-                   child: Text('Crear una nueva cuenta', style: TextStyle(fontSize: 15, ), )
+                   child: Text('Ya tienes una cuenta?', style: TextStyle(fontSize: 15,),)
                  ),
 
 
@@ -130,8 +131,8 @@ class _LoginForm extends StatelessWidget {
               child: Container(
                 child: Text(
                   loginForm.isLoading 
-                  ? 'Espere'
-                  : 'Ingresar',
+                  ? 'Espere' 
+                  : 'Crear',
                   style: TextStyle(color: Colors.white),
                 ),   
               ),
@@ -145,17 +146,19 @@ class _LoginForm extends StatelessWidget {
                 
                 loginForm.isLoading = true;
 
-                final String? errorMesage = await authService.login(loginForm.email, loginForm.password);
+                final String? errorMesage = await authService.createUser(loginForm.email, loginForm.password);
 
 
                 if( errorMesage == null ){
                   Navigator.pushReplacementNamed(context, HomeScreen.route);
                 } else{
                   //mostrar error en pantalla
-                  NotificationsService.showSnackbar(errorMesage);                  
+                  print(errorMesage);
                   loginForm.isLoading=false;
                 }
 
+
+                //pushReplacementNamed destruye el stack de las pantallas para dejar unicamente las pantallas
               },
               ),
 
